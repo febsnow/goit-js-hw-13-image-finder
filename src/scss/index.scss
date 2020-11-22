@@ -1,0 +1,58 @@
+body {
+  width: 1200px;
+  padding: 15px;
+  margin: 0 auto;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+form {
+  margin-bottom: 15px;
+  text-align: center;
+}
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
+ul.js-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px;
+  justify-content: space-between;
+  li.photo-card {
+    margin: 15px;
+    width: 370px;
+    img {
+      margin: 0 auto;
+      height: 220px;
+    }
+  }
+}
+div.stats {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  p {
+    display: inline-flex;
+    align-items: center;
+    i {
+      margin-right: 5px;
+    }
+  }
+}
+
+.load-btn {
+  display: block;
+  width: 200px;
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 30px auto;
+}
+
+.is-hidden {
+  display: none;
+}
