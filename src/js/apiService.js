@@ -8,9 +8,16 @@ export default class PicturesApiService {
     this.perPage = 12;
   }
   fetchPictures() {
-    return fetch(
-      `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.pageNum}&per_page=${this.perPage}&key=${API_KEY}`,
-    )
+    const searchParams = new URLSearchParams({
+      image_type: 'photo',
+      orientation: 'horizontal',
+      q: this.searchQuery,
+      page: this.pageNum,
+      per_page: this.perPage,
+      key: API_KEY,
+    });
+
+    return fetch(`${BASE_URL}?${searchParams}`)
       .then(result => result.json())
       .then(data => {
         this.pageNum += 1;
