@@ -23,7 +23,7 @@ ul.js-gallery {
   justify-content: space-between;
   li.photo-card {
     margin: 15px;
-    width: 370px;
+    width: 30%;
     img {
       margin: 0 auto;
       height: 220px;
@@ -32,7 +32,7 @@ ul.js-gallery {
 }
 div.stats {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 10px;
   p {
     display: inline-flex;

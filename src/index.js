@@ -5,6 +5,7 @@ import cardTemplate from './templates/cardTemplate.hbs';
 import { error, notice } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
+import showModal from './js/openModal';
 
 const refs = {
   searchForm: document.querySelector('.search-form'),
@@ -15,7 +16,8 @@ const refs = {
 const getPictures = new PicturesApiService();
 
 refs.searchForm.addEventListener('submit', onSearch);
-refs.loadMoreBtn.addEventListener('click', fetchPictures);
+refs.loadMoreBtn.addEventListener('click', onLoadMoreBtn);
+refs.gallery.addEventListener('click', showModal);
 
 function onSearch(e) {
   e.preventDefault();
@@ -31,21 +33,24 @@ function onSearch(e) {
   getPictures.resetPage();
 
   clearGallery();
-
   fetchPictures();
+}
+
+function onLoadMoreBtn() {
+  fetchPictures().then(scrollGallery);
 }
 
 function fetchPictures() {
   refs.loadMoreBtn.textContent = 'Loading...';
   refs.loadMoreBtn.disabled = true;
 
-  getPictures
+  return getPictures
     .fetchPictures()
     .then(data => {
       if (data == 0) {
         refs.loadMoreBtn.classList.add('is-hidden');
         return error({
-          text: 'Enter search request',
+          text: 'Nothing found',
           delay: 1500,
         });
       }
@@ -64,6 +69,12 @@ function fetchPictures() {
     .catch(console.log);
 }
 
+function scrollGallery() {
+  const screenHeight = document.documentElement.clientHeight;
+  const { y } = refs.gallery.getBoundingClientRect();
+  window.scrollTo({ top: -y + screenHeight - 200, behavior: 'smooth' });
+}
+
 function createGallery(pictures) {
   refs.gallery.insertAdjacentHTML('beforeend', cardTemplate(pictures));
 }
@@ -72,14 +83,3 @@ function clearGallery() {
   refs.searchForm.elements.query.value = '';
   refs.gallery.innerHTML = '';
 }
-// const lastChild = refs.gallery.lastChild;
-
-// function getCoords(elem) {
-//   const box = elem.getBoundingClientRect();
-
-//   return {
-//     top: box.top + pageYOffset,
-//     left: box.left + pageXOffset,
-//   };
-// }
-// getCoords(lastChild);
