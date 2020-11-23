@@ -61,7 +61,7 @@ function fetchPictures() {
       });
 
       createGallery(data);
-
+      console.dir(refs.gallery);
       refs.loadMoreBtn.classList.remove('is-hidden');
       refs.loadMoreBtn.textContent = 'Load more';
       refs.loadMoreBtn.disabled = false;
