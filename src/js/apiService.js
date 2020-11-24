@@ -33,10 +33,14 @@ export default class PicturesApiService {
       per_page: this.perPage,
       key: API_KEY,
     });
-    const searchForPictures = await fetch(`${BASE_URL}?${searchParams}`);
-    const searchResult = await searchForPictures.json();
-    this.pageNum += 1;
-    return searchResult.hits;
+    try {
+      const searchForPictures = await fetch(`${BASE_URL}?${searchParams}`);
+      const searchResult = await searchForPictures.json();
+      this.pageNum += 1;
+      return searchResult.hits;
+    } catch (error) {
+      throw error;
+    }
   }
   resetPage() {
     this.pageNum = 1;

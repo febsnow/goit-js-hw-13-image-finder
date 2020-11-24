@@ -68,7 +68,6 @@ async function fetchPictures() {
   const pictures = await getPictures.fetchPictures();
   const buildMarkup = pictures => {
     if (pictures == 0) {
-      clearGallery();
       return error({
         text: 'Nothing found',
       });
