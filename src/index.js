@@ -72,13 +72,11 @@ async function fetchPictures() {
       clearGallery();
       return error({
         text: 'Nothing found',
-        delay: 1500,
       });
     }
 
     notice({
-      text: `Searching for ${getPictures.searchQuery}`,
-      delay: 1500,
+      text: `Loading results for ${getPictures.searchQuery}`,
     });
 
     createGallery(pictures);
