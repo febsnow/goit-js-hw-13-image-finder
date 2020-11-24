@@ -68,7 +68,6 @@ async function fetchPictures() {
   const pictures = await getPictures.fetchPictures();
   const buildMarkup = pictures => {
     if (pictures == 0) {
-      refs.loadMoreBtn.classList.add('is-hidden');
       clearGallery();
       return error({
         text: 'Nothing found',
