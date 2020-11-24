@@ -40,30 +40,58 @@ function onSearch(e) {
 //   fetchPictures().then(scrollGallery);
 // }
 
-function fetchPictures() {
-  return getPictures
-    .fetchPictures()
-    .then(data => {
-      if (data == 0) {
-        return error({
-          text: 'Nothing found',
-        });
-      }
+// function fetchPictures() {
+//   return getPictures
+//     .fetchPictures()
+//     .then(data => {
+//       if (data == 0) {
+//         return error({
+//           text: 'Nothing found',
+//         });
+//       }
 
-      notice({
-        text: `Loading results for "${getPictures.searchQuery}"`,
-      });
+//       notice({
+//         text: `Loading results for "${getPictures.searchQuery}"`,
+//       });
 
-      createGallery(data);
-    })
-    .catch(console.log);
-}
+//       createGallery(data);
+//     })
+//     .catch(console.log);
+// }
 
 // function scrollGallery() {
 //   const screenHeight = document.documentElement.clientHeight;
 //   const { y } = refs.gallery.getBoundingClientRect();
 //   window.scrollTo({ top: -y + screenHeight - 200, behavior: 'smooth' });
 // }
+async function fetchPictures() {
+  refs.loadMoreBtn.textContent = 'Loading...';
+  refs.loadMoreBtn.disabled = true;
+
+  const pictures = await getPictures.fetchPictures();
+  const buildMarkup = pictures => {
+    if (pictures == 0) {
+      refs.loadMoreBtn.classList.add('is-hidden');
+      clearGallery();
+      return error({
+        text: 'Nothing found',
+        delay: 1500,
+      });
+    }
+
+    notice({
+      text: `Searching for ${getPictures.searchQuery}`,
+      delay: 1500,
+    });
+
+    createGallery(pictures);
+
+    refs.loadMoreBtn.classList.remove('is-hidden');
+    refs.loadMoreBtn.textContent = 'Load more';
+    refs.loadMoreBtn.disabled = false;
+  };
+  return buildMarkup(pictures);
+}
 
 function createGallery(pictures) {
   refs.gallery.insertAdjacentHTML('beforeend', cardTemplate(pictures));

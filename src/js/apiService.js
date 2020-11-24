@@ -7,7 +7,24 @@ export default class PicturesApiService {
     this.pageNum = 1;
     this.perPage = 12;
   }
-  fetchPictures() {
+  // fetchPictures() {
+  //   const searchParams = new URLSearchParams({
+  //     image_type: 'photo',
+  //     orientation: 'horizontal',
+  //     q: this.searchQuery,
+  //     page: this.pageNum,
+  //     per_page: this.perPage,
+  //     key: API_KEY,
+  //   });
+
+  //   return fetch(`${BASE_URL}?${searchParams}`)
+  //     .then(result => result.json())
+  //     .then(data => {
+  //       this.pageNum += 1;
+  //       return data.hits;
+  //     });
+  // }
+  async fetchPictures() {
     const searchParams = new URLSearchParams({
       image_type: 'photo',
       orientation: 'horizontal',
@@ -16,13 +33,10 @@ export default class PicturesApiService {
       per_page: this.perPage,
       key: API_KEY,
     });
-
-    return fetch(`${BASE_URL}?${searchParams}`)
-      .then(result => result.json())
-      .then(data => {
-        this.pageNum += 1;
-        return data.hits;
-      });
+    const searchForPictures = await fetch(`${BASE_URL}?${searchParams}`);
+    const searchResult = await searchForPictures.json();
+    this.pageNum += 1;
+    return searchResult.hits;
   }
   resetPage() {
     this.pageNum = 1;
