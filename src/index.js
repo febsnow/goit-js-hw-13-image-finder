@@ -65,9 +65,6 @@ function onSearch(e) {
 //   window.scrollTo({ top: -y + screenHeight - 200, behavior: 'smooth' });
 // }
 async function fetchPictures() {
-  refs.loadMoreBtn.textContent = 'Loading...';
-  refs.loadMoreBtn.disabled = true;
-
   const pictures = await getPictures.fetchPictures();
   const buildMarkup = pictures => {
     if (pictures == 0) {
@@ -85,10 +82,6 @@ async function fetchPictures() {
     });
 
     createGallery(pictures);
-
-    refs.loadMoreBtn.classList.remove('is-hidden');
-    refs.loadMoreBtn.textContent = 'Load more';
-    refs.loadMoreBtn.disabled = false;
   };
   return buildMarkup(pictures);
 }
