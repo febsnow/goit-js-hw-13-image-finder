@@ -2,7 +2,7 @@ import 'material-design-icons/iconfont/material-icons.css';
 import './scss/index.scss';
 import PicturesApiService from './js/apiService';
 import cardTemplate from './templates/cardTemplate.hbs';
-import { error, notice, defaults } from '@pnotify/core';
+import { error, notice, success as success, defaults } from '@pnotify/core';
 
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
@@ -65,21 +65,33 @@ function onSearch(e) {
 //   window.scrollTo({ top: -y + screenHeight - 200, behavior: 'smooth' });
 // }
 async function fetchPictures() {
-  const pictures = await getPictures.fetchPictures();
-  const buildMarkup = pictures => {
-    if (pictures == 0) {
-      return error({
-        text: 'Nothing found',
+  try {
+    const pictures = await getPictures.fetchPictures();
+    const { searchResult, totalResult } = pictures;
+    const buildMarkup = pictures => {
+      if (totalResult == 0) {
+        return error({
+          text: 'Nothing found',
+        });
+      }
+      if (pictures <= getPictures.perPage) {
+        return success({
+          text: `That's all`,
+        });
+      }
+      const wholeGallery = document.querySelectorAll('.photo-card');
+      const picturesLeft = totalResult - wholeGallery.length;
+
+      notice({
+        text: `Loading results for ${getPictures.searchQuery}\n ${picturesLeft} pictures left`,
       });
-    }
 
-    notice({
-      text: `Loading results for ${getPictures.searchQuery}`,
-    });
-
-    createGallery(pictures);
-  };
-  return buildMarkup(pictures);
+      createGallery(pictures);
+    };
+    return buildMarkup(searchResult);
+  } catch (error) {
+    console.dir(error);
+  }
 }
 
 function createGallery(pictures) {

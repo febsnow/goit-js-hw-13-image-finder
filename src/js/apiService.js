@@ -37,7 +37,11 @@ export default class PicturesApiService {
       const searchForPictures = await fetch(`${BASE_URL}?${searchParams}`);
       const searchResult = await searchForPictures.json();
       this.pageNum += 1;
-      return searchResult.hits;
+      const result = {
+        searchResult: searchResult.hits,
+        totalResult: searchResult.totalHits,
+      };
+      return result;
     } catch (error) {
       throw error;
     }
