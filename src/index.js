@@ -2,7 +2,7 @@ import 'material-design-icons/iconfont/material-icons.css';
 import './scss/index.scss';
 import PicturesApiService from './js/apiService';
 import cardTemplate from './templates/cardTemplate.hbs';
-import { error, notice, success as success, defaults } from '@pnotify/core';
+import { error, notice, success, defaults } from '@pnotify/core';
 
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
